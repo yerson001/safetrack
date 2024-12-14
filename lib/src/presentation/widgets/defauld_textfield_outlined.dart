@@ -20,31 +20,25 @@ class DefaultTexfieldOutlined extends StatelessWidget {
     return Container(
       height: 45,
       margin: margin,
-      decoration: BoxDecoration(
-          // color: Color.fromRGBO(255, 255, 255, 0.2),
-          // borderRadius: BorderRadius.only(
-          //   topLeft: Radius.circular(15),
-          //   bottomRight: Radius.circular(15),
-          // )
-          ),
+      decoration: BoxDecoration(),
       child: TextFormField(
         onChanged: (text) {
           onChanged(text);
         },
         validator: validator,
+        style: TextStyle(fontSize: 12, color: Colors.white),
         decoration: InputDecoration(
             label: Text(
               text,
               style: TextStyle(color: Colors.white),
             ),
-
-            // border: InputBorder.none,
             focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(
-                    color: Color.fromARGB(255, 35, 161, 183), width: 2)),
+                    color: Color.fromARGB(255, 35, 161, 183), width: 1)),
             enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(
-                    color: Color.fromARGB(255, 34, 101, 202), width: 2)),
+                    color: Color.fromARGB(255, 239, 240, 241), width: 1)),
+            labelStyle: TextStyle(fontSize: 12),
             prefixIcon: Container(
               margin: EdgeInsets.only(top: 10),
               child: Wrap(

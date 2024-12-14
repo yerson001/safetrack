@@ -15,10 +15,26 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<RegisterBloc, RegisterState>(
-        builder: (context, state) {
-          return RegisterContent(state);
-        },
+      resizeToAvoidBottomInset: false,
+      body: Stack(
+        children: [
+          BlocBuilder<RegisterBloc, RegisterState>(
+            builder: (context, state) {
+              return RegisterContent(state);
+            },
+          ),
+          Positioned(
+            top: 40, // Distancia desde la parte superior
+            left: 10, // Distancia desde el borde izquierdo
+            child: IconButton(
+              icon:
+                  Icon(Icons.arrow_back, color: Colors.white), // Flecha blanca
+              onPressed: () {
+                Navigator.pop(context); // Volver a la página anterior
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

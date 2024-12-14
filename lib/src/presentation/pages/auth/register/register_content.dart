@@ -6,6 +6,7 @@ import 'package:safetrack/src/presentation/pages/auth/register/block/register_bl
 import 'package:safetrack/src/presentation/pages/auth/register/block/register_event.dart';
 import 'package:safetrack/src/presentation/pages/auth/register/block/register_state.dart';
 import 'package:safetrack/src/presentation/utils/block_formitem.dart';
+import 'package:safetrack/src/presentation/widgets/defauld_onboard_button.dart';
 import 'package:safetrack/src/presentation/widgets/defauld_textfield_outlined.dart';
 import 'package:safetrack/src/presentation/widgets/defauls_button.dart';
 
@@ -23,44 +24,15 @@ class RegisterContent extends StatelessWidget {
           Container(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
-            padding: EdgeInsets.only(left: 12),
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topRight,
-                  end: Alignment.bottomLeft,
-                  colors: const [
-                    Color.fromARGB(255, 12, 38, 145),
-                    Color.fromARGB(255, 34, 156, 249)
-                  ]),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _textLoginRotate(context),
-                SizedBox(
-                  height: 100,
-                ),
-                _textRegisterRotate(),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.25,
-                ),
-              ],
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(left: 60, bottom: 35),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(35),
-                    bottomLeft: Radius.circular(35)),
                 gradient: LinearGradient(
                     begin: Alignment.topRight,
                     end: Alignment.bottomLeft,
                     colors: [
-                      Color.fromARGB(255, 46, 107, 222),
-                      Color.fromARGB(255, 27, 48, 134),
-                    ])),
+                  Color(0xffb51837),
+                  Color(0xff661c3a),
+                  Color(0xff301939),
+                ])),
             child: Stack(
               children: [
                 _imageBackground(context),
@@ -71,7 +43,7 @@ class RegisterContent extends StatelessWidget {
                       DefaultTexfieldOutlined(
                         text: 'Nombres',
                         icon: Icons.person_outline,
-                        margin: EdgeInsets.only(left: 50, right: 50, top: 15),
+                        margin: EdgeInsets.only(left: 30, right: 30, top: 15),
                         onChanged: (text) {
                           context.read<RegisterBloc>().add(NameChangedTextFiend(
                               name: BlockFormItem(value: text)));
@@ -83,7 +55,7 @@ class RegisterContent extends StatelessWidget {
                       DefaultTexfieldOutlined(
                         text: 'Apellido',
                         icon: Icons.person_2_outlined,
-                        margin: EdgeInsets.only(left: 50, right: 50, top: 15),
+                        margin: EdgeInsets.only(left: 30, right: 30, top: 15),
                         onChanged: (text) {
                           context.read<RegisterBloc>().add(
                               LastNameChangedTextFiend(
@@ -96,7 +68,7 @@ class RegisterContent extends StatelessWidget {
                       DefaultTexfieldOutlined(
                         text: 'Email',
                         icon: Icons.email_outlined,
-                        margin: EdgeInsets.only(left: 50, right: 50, top: 15),
+                        margin: EdgeInsets.only(left: 30, right: 30, top: 15),
                         onChanged: (text) {
                           context.read<RegisterBloc>().add(
                               EmailChangedTextFiend(
@@ -109,7 +81,7 @@ class RegisterContent extends StatelessWidget {
                       DefaultTexfieldOutlined(
                         text: 'Telefono',
                         icon: Icons.phone_outlined,
-                        margin: EdgeInsets.only(left: 50, right: 50, top: 15),
+                        margin: EdgeInsets.only(left: 30, right: 30, top: 15),
                         onChanged: (text) {
                           context.read<RegisterBloc>().add(
                               PhoneChangedTextFiend(
@@ -122,7 +94,7 @@ class RegisterContent extends StatelessWidget {
                       DefaultTexfieldOutlined(
                         text: 'Contraseña',
                         icon: Icons.lock_outline,
-                        margin: EdgeInsets.only(left: 50, right: 50, top: 15),
+                        margin: EdgeInsets.only(left: 30, right: 30, top: 15),
                         onChanged: (text) {
                           context.read<RegisterBloc>().add(
                               PasswordChangedTextFiend(
@@ -135,7 +107,7 @@ class RegisterContent extends StatelessWidget {
                       DefaultTexfieldOutlined(
                         text: 'Confirma Contraseña',
                         icon: Icons.lock_outline,
-                        margin: EdgeInsets.only(left: 50, right: 50, top: 15),
+                        margin: EdgeInsets.only(left: 30, right: 30, top: 15),
                         onChanged: (text) {
                           context.read<RegisterBloc>().add(
                               ConfirmPasswordChangedTextFiend(
@@ -145,7 +117,9 @@ class RegisterContent extends StatelessWidget {
                           return state?.confirmPassword.error;
                         },
                       ),
-                      DefaultButton(
+                      DefauldOnboardButton(
+                        text: "CREAR USUARIO",
+                        color: Color(0xffb51837),
                         onPressed: () {
                           final formKey = state?.formkey;
                           if (formKey != null &&
@@ -154,9 +128,8 @@ class RegisterContent extends StatelessWidget {
                             context.read<RegisterBloc>().add(FormReset());
                           } else {}
                         },
-                        text: 'Crear usuario',
-                        color: Colors.white,
-                        textColor: Colors.black,
+                        textColor: const Color.fromARGB(255, 243, 241, 241),
+                        margin: EdgeInsets.only(top: 60, left: 30, right: 30),
                       ),
                       SizedBox(
                         height: 25,
@@ -179,7 +152,7 @@ class RegisterContent extends StatelessWidget {
 
   Widget _imageBackground(context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 50),
+      margin: EdgeInsets.only(bottom: 35),
       alignment: Alignment.bottomCenter,
       child: Image.asset(
         'assets/img/destination.png',
@@ -196,18 +169,20 @@ class RegisterContent extends StatelessWidget {
       children: [
         Text(
           'Ya tienes cuenta?',
-          style: TextStyle(color: const Color.fromARGB(255, 109, 106, 106)),
+          style: TextStyle(color: const Color.fromARGB(255, 41, 167, 240)),
         ),
         SizedBox(
           width: 10,
         ),
         GestureDetector(
           onTap: () {
-            Navigator.pushNamed(context, 'login');
+            Navigator.pop(context);
           },
           child: Text(
             'Inicia Sesion',
-            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                color: const Color.fromARGB(255, 234, 233, 233),
+                fontWeight: FontWeight.bold),
           ),
         )
       ],
@@ -221,18 +196,20 @@ class RegisterContent extends StatelessWidget {
         Container(
           width: 25,
           height: 1,
-          color: Colors.black,
+          color: const Color.fromARGB(255, 233, 231, 231),
           margin: EdgeInsets.only(right: 5),
         ),
         Text(
           'O',
           style: TextStyle(
-              color: Colors.black, fontSize: 17, fontWeight: FontWeight.bold),
+              color: const Color.fromARGB(255, 243, 241, 241),
+              fontSize: 17,
+              fontWeight: FontWeight.bold),
         ),
         Container(
           width: 25,
           height: 1,
-          color: Colors.black,
+          color: const Color.fromARGB(255, 243, 240, 240),
           margin: EdgeInsets.only(left: 5),
         ),
       ],
@@ -244,8 +221,8 @@ class RegisterContent extends StatelessWidget {
       margin: EdgeInsets.only(top: 40),
       alignment: Alignment.center,
       child: Image.asset(
-        'assets/img/delivery.png',
-        width: 150,
+        'assets/img/safe.png',
+        width: 300,
         height: 150,
       ),
     );
@@ -255,9 +232,9 @@ class RegisterContent extends StatelessWidget {
     return RotatedBox(
       quarterTurns: 1,
       child: Text(
-        'Register',
+        'Crear Cuenta',
         style: TextStyle(
-            fontSize: 27, color: Colors.white, fontWeight: FontWeight.bold),
+            fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
       ),
     );
   }
@@ -267,12 +244,12 @@ class RegisterContent extends StatelessWidget {
       quarterTurns: 1,
       child: GestureDetector(
         onTap: () {
-          Navigator.pushNamed(context, 'login');
+          Navigator.pop(context);
         },
         child: Text(
-          'Login',
+          'Registrarse',
           style: TextStyle(
-            fontSize: 24,
+            fontSize: 15,
             color: Colors.white,
           ),
         ),
