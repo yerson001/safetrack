@@ -1,3 +1,3 @@
 class ApiConfig {
-  static const String API_PORYECT = '192.168.137.85:3000';
+  static const String API_PORYECT = '192.168.18.27:3000';
 }

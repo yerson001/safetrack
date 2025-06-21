@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:safetrack/src/domain/useCases/auth/AuthUseCases.dart';
+import 'package:safetrack/src/domain/utils/Resource.dart';
 import 'package:safetrack/src/presentation/pages/auth/register/block/register_event.dart';
 import 'package:safetrack/src/presentation/pages/auth/register/block/register_state.dart';
 import 'package:safetrack/src/presentation/utils/block_formitem.dart';
@@ -7,7 +9,9 @@ import 'package:safetrack/src/presentation/utils/block_formitem.dart';
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   final formkey = GlobalKey<FormState>();
 
-  RegisterBloc() : super(RegisterState()) {
+  AuthUseCases authUseCases;
+
+  RegisterBloc(this.authUseCases) : super(RegisterState()) {
     on<RegisterInitEvent>((event, emit) {
       emit(state.copyWith(formkey: formkey));
     });
@@ -22,7 +26,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
 
     on<LastNameChangedTextFiend>((event, emit) {
       emit(state.copyWith(
-          name: BlockFormItem(
+          lastName: BlockFormItem(
               value: event.lastName.value,
               error: event.lastName.value.isEmpty ? 'Ingrese Apellido' : null),
           formkey: formkey));
@@ -30,7 +34,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
 
     on<EmailChangedTextFiend>((event, emit) {
       emit(state.copyWith(
-          name: BlockFormItem(
+          email: BlockFormItem(
               value: event.email.value,
               error: event.email.value.isEmpty ? 'Ingrese Email' : null),
           formkey: formkey));
@@ -38,7 +42,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
 
     on<PhoneChangedTextFiend>((event, emit) {
       emit(state.copyWith(
-          name: BlockFormItem(
+          phone: BlockFormItem(
               value: event.phone.value,
               error: event.phone.value.isEmpty ? 'Ingrese Telefono' : null),
           formkey: formkey));
@@ -46,7 +50,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
 
     on<PasswordChangedTextFiend>((event, emit) {
       emit(state.copyWith(
-          name: BlockFormItem(
+          password: BlockFormItem(
               value: event.password.value,
               error: event.password.value.isEmpty
                   ? 'Ingrese Contraseña'
@@ -58,7 +62,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
 
     on<ConfirmPasswordChangedTextFiend>((event, emit) {
       emit(state.copyWith(
-          name: BlockFormItem(
+          confirmPassword: BlockFormItem(
               value: event.confirmPassword.value,
               error: event.confirmPassword.value.isEmpty
                   ? 'Ingrese Contraseña'
@@ -70,13 +74,21 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
           formkey: formkey));
     });
 
-    on<FormSubmit>((event, emit) {
-      print('name: ${state.name}');
-      print('lastname: ${state.lastName}');
-      print('email: ${state.email}');
-      print('phone: ${state.phone}');
-      print('password: ${state.password}');
-      print('confirmpassword: ${state.confirmPassword}');
+    on<SaveUserSession>((event, emit) async {
+      await authUseCases.saveUserSession.run(event.authResponse);
+    });
+
+    on<FormSubmit>((event, emit) async {
+      print('DATA name: ${state.name.value}');
+      print('DATA lastname: ${state.lastName.value}');
+      print('DATA email: ${state.email.value}');
+      print('DATA phone: ${state.phone.value}');
+      print('DATA password: ${state.password.value}');
+      print('DATA confirmpassword: ${state.confirmPassword.value}');
+
+      emit(state.copyWith(response: Loading(), formkey: formkey));
+      Resource response = await authUseCases.register.run(state.toUser());
+      emit(state.copyWith(response: response, formkey: formkey));
     });
 
     on<FormReset>((event, emit) {
